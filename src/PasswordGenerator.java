@@ -2,7 +2,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -12,20 +11,19 @@ import javax.swing.JTextField;
 
 public class PasswordGenerator extends JFrame {
 
-    private static final long serialVersionUID = 1L;
     JPanel jp = new JPanel();
     JLabel jl = new JLabel();
     JTextField jt = new JTextField("Type important numbers, then press \"Enter\" ", 25);
     JButton jb = new JButton("Done");
     JCheckBox symbol, lower, upper, ambiguous;
 
-	public static boolean isDone = false;
-    public static String numString = "";
-
+    private static final long serialVersionUID = 1L;
+    public static boolean isDone = false;
     public static boolean isSymbol = false;
     public static boolean isLower = false;
     public static boolean isUpper = false;
     public static boolean isAmbiguous = false;
+    public static String numString = "";
 
     public PasswordGenerator() {
         setTitle("Password Generator");
@@ -37,8 +35,6 @@ public class PasswordGenerator extends JFrame {
         lower = new JCheckBox("Any Lowercase Letters?");
         upper = new JCheckBox("Any Uppercase Letters?");
         ambiguous = new JCheckBox("Any Ambiguous Characters? (e.g. { } [ ] ( ) / \\ ' \"\" ` ~ , ; : . < > )");
-
-        jp.add(jt);
 
         jt.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -59,8 +55,6 @@ public class PasswordGenerator extends JFrame {
 
             }
         });
-
-        jp.add(jl);
 
         symbol.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
@@ -102,18 +96,19 @@ public class PasswordGenerator extends JFrame {
             }
         });
 
-        jp.add(symbol);
-        jp.add(lower);
-        jp.add(upper);
-        jp.add(ambiguous);
-
         jb.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 isDone = true;
             }
         });
 
+        jp.add(jl);
         jp.add(jb);
+        jp.add(jt);
+        jp.add(symbol);
+        jp.add(lower);
+        jp.add(upper);
+        jp.add(ambiguous);
 
         add(jp);
     }
@@ -123,12 +118,12 @@ public class PasswordGenerator extends JFrame {
         while (isDone == false) {
             try {
                 Thread.sleep(200);
-            } catch (InterruptedException i) {}
+            } catch (InterruptedException i) {
+            }
         }
-        System.out.println(numString);
     }
 
     public static String passwordGenerator() {
-        return "-1";
+        return "";
     }
 }
