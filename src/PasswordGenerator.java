@@ -10,12 +10,14 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class PasswordGenerator extends JFrame {
-
     JPanel jp = new JPanel();
     JLabel jl = new JLabel();
     JTextField jt = new JTextField("Type important numbers, then press \"Enter\" ", 25);
     JButton jb = new JButton("Done");
-    JCheckBox symbol, lower, upper, ambiguous;
+    JCheckBox symbol = new JCheckBox("Any Symbols? (e.g. @#$% )");
+    JCheckBox lower = new JCheckBox("Any Lowercase Letters?");
+    JCheckBox upper = new JCheckBox("Any Uppercase Letters?");
+    JCheckBox ambiguous = new JCheckBox("Any Ambiguous Characters? (e.g. { } [ ] ( ) / \\ ' \"\" ` ~ , ; : . < > )");
 
     private static final long serialVersionUID = 1L;
     public static boolean isDone = false;
@@ -23,18 +25,14 @@ public class PasswordGenerator extends JFrame {
     public static boolean isLower = false;
     public static boolean isUpper = false;
     public static boolean isAmbiguous = false;
+    public static boolean passCreated = false;
     public static String numString = "";
 
     public PasswordGenerator() {
         setTitle("Password Generator");
         setVisible(true);
-        setSize(450, 300);
+        setSize(450, 200);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-        symbol = new JCheckBox("Any Symbols? (e.g. @#$% )");
-        lower = new JCheckBox("Any Lowercase Letters?");
-        upper = new JCheckBox("Any Uppercase Letters?");
-        ambiguous = new JCheckBox("Any Ambiguous Characters? (e.g. { } [ ] ( ) / \\ ' \"\" ` ~ , ; : . < > )");
 
         jt.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -52,7 +50,6 @@ public class PasswordGenerator extends JFrame {
                 } else {
                     jl.setText("Please input a valid number");
                 }
-
             }
         });
 
@@ -110,6 +107,11 @@ public class PasswordGenerator extends JFrame {
         jp.add(upper);
         jp.add(ambiguous);
 
+        if (passCreated) {
+            JLabel jlabel = new JLabel("The password is: " + passwordGenerator(numString));
+            jp.remove(jl);
+            jp.add(jlabel);
+        }
         add(jp);
     }
 
@@ -121,9 +123,11 @@ public class PasswordGenerator extends JFrame {
             } catch (InterruptedException i) {
             }
         }
+        passCreated = true;
+        new PasswordGenerator();
     }
 
-    public static String passwordGenerator() {
-        return "";
+    public static String passwordGenerator(String numString) {
+        return "Test";
     }
 }
