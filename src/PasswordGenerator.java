@@ -12,9 +12,9 @@ import javax.swing.JTextField;
 public class PasswordGenerator extends JFrame {
     JPanel jp = new JPanel();
     JLabel jl = new JLabel();
-    JTextField jt = new JTextField("Type important numbers, then press \"Enter\" ", 25);
+    JTextField jt = new JTextField("Type in the number of characters in the password, then press \"Enter\" ", 35);
     JButton jb = new JButton("Done");
-    JCheckBox symbol = new JCheckBox("Any Symbols? (e.g. @#$% )");
+    JCheckBox symbol = new JCheckBox("Any Symbols? (e.g. !@#$%^&*_-+=");
     JCheckBox lower = new JCheckBox("Any Lowercase Letters?");
     JCheckBox upper = new JCheckBox("Any Uppercase Letters?");
     JCheckBox ambiguous = new JCheckBox("Any Ambiguous Characters? (e.g. { } [ ] ( ) / \\ ' \"\" ` ~ , ; : . < > )");
@@ -25,13 +25,13 @@ public class PasswordGenerator extends JFrame {
     public static boolean isLower = false;
     public static boolean isUpper = false;
     public static boolean isAmbiguous = false;
-    public static boolean passCreated = false;
-    public static String numString = "";
+    public static boolean createPass = false;
+    public static int numOfChar = 0;
 
     public PasswordGenerator() {
         setTitle("Password Generator");
         setVisible(true);
-        setSize(450, 200);
+        setSize(550, 200);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         jt.addActionListener(new ActionListener() {
@@ -46,7 +46,7 @@ public class PasswordGenerator extends JFrame {
                             break;
                         }
                     }
-                    numString += input + " ";
+                    numOfChar = Integer.parseInt(input);
                 } else {
                     jl.setText("Please input a valid number");
                 }
@@ -95,23 +95,37 @@ public class PasswordGenerator extends JFrame {
 
         jb.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                isDone = true;
+                if (numOfChar < 4) {
+                    int countOfTrue = 0;
+                    if (isSymbol) countOfTrue++;
+                    if (isLower) countOfTrue++;
+                    if (isUpper) countOfTrue++;
+                    if (isAmbiguous) countOfTrue++;
+                    if (countOfTrue > numOfChar) {
+                        jl.setText("Please check the number of requirements in relation to the number of characters in the password.");
+                    } else {
+                        isDone = true;
+                    }
+                } else {
+                    isDone = true;
+                }
             }
         });
 
-        jp.add(jl);
         jp.add(jb);
         jp.add(jt);
         jp.add(symbol);
         jp.add(lower);
         jp.add(upper);
         jp.add(ambiguous);
+        jp.add(jl);
 
-        if (passCreated) {
-            JLabel jlabel = new JLabel("The password is: " + passwordGenerator(numString));
+        if (createPass) {
+            JLabel finalLabel = new JLabel("The password is: " + passwordGenerator());
             jp.remove(jl);
-            jp.add(jlabel);
+            jp.add(finalLabel);
         }
+
         add(jp);
     }
 
@@ -123,11 +137,96 @@ public class PasswordGenerator extends JFrame {
             } catch (InterruptedException i) {
             }
         }
-        passCreated = true;
+        createPass = true;
         new PasswordGenerator();
     }
 
-    public static String passwordGenerator(String numString) {
-        return "Test";
+    public static String passwordGenerator() {
+        String finalString = "";
+        boolean symbolVal = false;
+        boolean lowerVal = false;
+        boolean upperVal = false;
+        boolean ambiguousVal = false;
+        if (isSymbol) {
+            if (isLower) {
+                if (isUpper) {
+                    if (isAmbiguous) {
+                        while(true) {
+                            for (int i = 0; i < numOfChar; i++) {
+                                int rand = (int) ((Math.random() * 95) + 33);
+                                finalString += String.valueOf((char) rand);
+                                if (rand >= 97 && rand <= 122) lowerVal = true;
+                                else if (rand >= 65 && rand <= 90) upperVal = true;
+                                else if (rand == '!' || (rand >= 35 && rand <= 38) || rand == '*' || rand == '+' || rand == '-' || rand == '=' || rand == '@' || rand == '_' || rand == '^') symbolVal = true;
+                                else if (rand == '"' || rand == 39 || rand == '(' || rand == ')' || rand == ',' || rand == '.' || rand == '/' || (rand >= 58 && rand <= 60) || rand == 62 || rand == '?' || (rand >= 91 && rand <= 93) || rand == '`' || (rand >= 123 && rand <= 126)) ambiguousVal = true;
+                                if (symbolVal && lowerVal && upperVal && ambiguousVal && finalString.length() == numOfChar) {
+                                    return finalString;
+                                } else if (finalString.length() == numOfChar){
+                                    finalString = "";
+                                    symbolVal = false;
+                                    lowerVal = false;
+                                    upperVal = false;
+                                    ambiguousVal = false;
+                                }
+                            }
+                        }
+                    } else {
+
+                    }
+                } else {
+                    if (isAmbiguous) {
+
+                    } else {
+
+                    }
+                }
+            } else {
+                if (isUpper) {
+                    if (isAmbiguous) {
+
+                    } else {
+
+                    }
+                } else {
+                    if (isAmbiguous) {
+
+                    } else {
+
+                    }
+                }
+            }
+        } else {
+            if (isLower) {
+                if (isUpper) {
+                    if (isAmbiguous) {
+
+                    } else {
+
+                    }
+                } else {
+                    if (isAmbiguous) {
+
+                    } else {
+
+                    }
+                }
+            } else {
+                if (isUpper) {
+                    if (isAmbiguous) {
+
+                    } else {
+
+                    }
+                } else {
+                    if (isAmbiguous) {
+
+                    } else {
+
+                    }
+                }
+            }
+        }
+        return finalString;
     }
+
 }
