@@ -97,17 +97,20 @@ public class PasswordGenerator extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (numOfChar < 4) {
                     int countOfTrue = 0;
-                    if (isSymbol)
+                    if (isSymbol) {
                         countOfTrue++;
-                    if (isLower)
+                    } 
+                    if (isLower) {
                         countOfTrue++;
-                    if (isUpper)
+                    }
+                    if (isUpper) {
                         countOfTrue++;
-                    if (isAmbiguous)
+                    }
+                    if (isAmbiguous) {
                         countOfTrue++;
+                    }     
                     if (countOfTrue > numOfChar) {
-                        jl.setText(
-                                "Please check the number of requirements in relation to the number of characters in the password.");
+                        jl.setText("Please check the number of requirements in relation to the number of characters in the password.");
                     } else {
                         isDone = true;
                     }
